@@ -1,0 +1,110 @@
+---
+/**
+ * Product-flow video. Plays muted when scrolled into view, pauses when it leaves,
+ * with a sound toggle and replay. Poster is the first frame so the band never
+ * paints empty. The page is complete without JS: native controls stay available.
+ */
+---
+<section class="section reel" id="trust">
+  <div class="wrap">
+    <div class="header-row">
+      <div>
+        <p class="kicker" data-reveal>How verification works</p>
+        <h2 class="display h2" data-reveal style="--d:80ms">Watch a generated face get <em>stopped.</em></h2>
+      </div>
+      <p class="lede" data-reveal style="--d:160ms">
+        Two uploads, side by side. One is a real person and goes live. One was never a person,
+        and discovery pauses before a single match is made.
+      </p>
+    </div>
+
+    <figure class="player" id="reel" data-reveal style="--d:120ms">
+      <div class="chrome" aria-hidden="true">
+        <span class="dots"><i></i><i></i><i></i></span>
+        <span class="title mono">saath · photo check</span>
+        <span class="live mono"><span class="dot"></span>illustrative flow</span>
+      </div>
+      <div class="screen">
+        <video
+          id="reel-video"
+          src="/media/saath-verification.mp4"
+          poster="/media/saath-verification-poster.jpg"
+          width="1280" height="720"
+          muted playsinline loop preload="metadata"
+          aria-label="Saath photo check: an AI-generated photo pauses discovery while a personal photo is verified"
+        ></video>
+        <button class="big-play" id="reel-play" aria-label="Play video">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+      </div>
+      <div class="bar">
+        <div class="progress" aria-hidden="true"><span id="reel-progress"></span></div>
+        <div class="controls">
+          <button class="ctl" id="reel-toggle" aria-label="Pause" aria-pressed="true">
+            <svg class="i-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>
+            <svg class="i-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <button class="ctl" id="reel-sound" aria-label="Unmute" aria-pressed="false">
+            <svg class="i-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4zM16 9l5 6M21 9l-5 6"/></svg>
+            <svg class="i-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4zM15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+          </button>
+          <button class="ctl" id="reel-replay" aria-label="Replay">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v5h5"/></svg>
+          </button>
+          <span class="time mono" id="reel-time">0:00 / 0:10</span>
+          <span class="note mono">Plays silently as you scroll. Sound optional.</span>
+        </div>
+      </div>
+      <figcaption class="src">Illustrative product flow. The two photos in the film are stand-ins, not users.</figcaption>
+    </figure>
+
+    <ul class="beats grid g-3">
+      <li data-reveal><span class="mono n">01</span><h3 class="bh">Upload</h3><p class="muted">Every photo meets our detection models first: AI generation, face swap, heavy retouching, reuse elsewhere online, camera credential.</p></li>
+      <li data-reveal style="--d:80ms"><span class="mono n">02</span><h3 class="bh">Decide</h3><p class="muted">Real photos continue to the live-person and ID checks. Edited ones are labelled. Generated and swapped faces pause discovery and go to a human.</p></li>
+      <li data-reveal style="--d:160ms"><span class="mono n">03</span><h3 class="bh">Unlock</h3><p class="muted">Only then does matching open, and the people you meet have been through exactly the same gate.</p></li>
+    </ul>
+  </div>
+</section>
+
+<style>
+  .player { margin: 0; border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; background: var(--card); box-shadow: var(--shadow); }
+  .chrome { display: flex; align-items: center; gap: 14px; padding: 10px 14px; border-bottom: 1px solid var(--line); background: var(--paper-2); font-size: var(--t-xs); color: var(--ink-3); }
+  .dots { display: inline-flex; gap: 5px; }
+  .dots i { width: 9px; height: 9px; border-radius: 50%; background: var(--paper-3); border: 1px solid var(--line-strong); }
+  .title { flex: 1; text-align: center; white-space: nowrap; }
+  .live { display: inline-flex; align-items: center; gap: 6px; }
+  .live .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  .screen { position: relative; background: #efede3; }
+  video { width: 100%; height: auto; aspect-ratio: 16 / 9; }
+  .big-play {
+    position: absolute; inset: 0; margin: auto; width: 76px; height: 76px; border-radius: 50%;
+    background: var(--green); color: var(--paper); display: grid; place-items: center;
+    box-shadow: var(--shadow); transition: opacity .3s, transform .3s var(--ease);
+  }
+  .big-play svg { width: 30px; height: 30px; margin-left: 3px; }
+  .big-play:hover { transform: scale(1.05); }
+  .player.playing .big-play { opacity: 0; pointer-events: none; }
+  .bar { padding: 0 14px 10px; background: var(--paper-2); border-top: 1px solid var(--line); }
+  .progress { height: 2px; background: var(--line); margin: 0 -14px 10px; }
+  .progress span { display: block; height: 100%; width: 0; background: var(--accent); transition: width .2s linear; }
+  .controls { display: flex; align-items: center; gap: 8px; }
+  .ctl { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; color: var(--ink); border: 1px solid var(--line); background: var(--card); }
+  .ctl:hover { border-color: var(--ink); }
+  .ctl svg { width: 16px; height: 16px; }
+  .i-play, .i-on { display: none; }
+  .player.paused .i-pause { display: none; }
+  .player.paused .i-play { display: block; }
+  .player.sound .i-off { display: none; }
+  .player.sound .i-on { display: block; }
+  .time { font-size: var(--t-xs); color: var(--ink-3); margin-left: 6px; }
+  .note { font-size: var(--t-xs); color: var(--ink-4); margin-left: auto; }
+  .no-js .big-play, .no-js .bar { display: none; }
+  figcaption { padding: 12px 16px; border-top: 1px solid var(--line); }
+
+  .beats { margin-top: clamp(32px, 5vw, 56px); }
+  .beats li { padding-top: 18px; border-top: 1px solid var(--accent); display: grid; gap: 8px; }
+  .n { color: var(--accent); font-size: var(--t-xs); }
+  .bh { font-family: var(--font-display); font-size: var(--t-xl); line-height: 1.05; }
+  .beats p { font-size: var(--t-sm); text-wrap: pretty; }
+  @media (max-width: 600px) { .note, .live { display: none; } .big-play { width: 60px; height: 60px; } }
+</style>

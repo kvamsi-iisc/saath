@@ -1,0 +1,42 @@
+---
+import { SITE, NAV } from '../config/site';
+import Logo from './Logo.astro';
+---
+<header class="nav" id="top">
+  <div class="wrap nav-inner">
+    <a href="#top" class="brand" aria-label={`${SITE.name} home`}>
+      <Logo size={30} class="mark" />
+      <span class="brand-name">{SITE.wordmark}<span class="dot">.</span></span>
+    </a>
+    <nav class="links hide-mobile" aria-label="Sections">
+      {NAV.map((n) => <a href={n.href}>{n.label}</a>)}
+    </nav>
+    <div class="actions">
+      <span class="pill hide-mobile"><span class="dot pulse"></span>Private beta</span>
+      <a href="#waitlist" class="btn btn-outline">Join the waitlist
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 12 12 4M6 4h6v6"/></svg>
+      </a>
+    </div>
+  </div>
+</header>
+
+<style>
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in srgb, var(--paper) 86%, transparent);
+    backdrop-filter: saturate(140%) blur(12px);
+    -webkit-backdrop-filter: saturate(140%) blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 24px; height: 72px; }
+  .brand { display: inline-flex; align-items: center; gap: 9px; color: var(--ink); }
+  .brand :global(.mark) { color: var(--accent); }
+  .brand-name { font-family: var(--font-sans); font-weight: 600; font-size: 1.7rem; letter-spacing: -0.035em; line-height: 1; color: var(--ink); }
+  .brand-name .dot { color: var(--accent); }
+  .links { display: flex; gap: 32px; font-size: var(--t-sm); color: var(--ink-2); }
+  .links a { position: relative; padding-block: 4px; }
+  .links a::after { content: ''; position: absolute; left: 0; right: 100%; bottom: 0; height: 1px; background: var(--accent); transition: right .3s var(--ease); }
+  .links a:hover::after { right: 0; }
+  .actions { display: flex; align-items: center; gap: 14px; }
+  @media (max-width: 720px) { .nav-inner { height: 62px; } .btn { padding: 11px 14px; } .brand-name { font-size: 1.45rem; } }
+</style>

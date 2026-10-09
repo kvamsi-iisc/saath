@@ -1,0 +1,54 @@
+---
+import { SITE, NAV } from '../config/site';
+import Logo from './Logo.astro';
+const year = new Date().getFullYear();
+---
+<footer class="footer">
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <a href="#top" class="brand" aria-label={`${SITE.name} home`}>
+          <Logo size={26} class="mark" />
+          <span class="brand-name">{SITE.wordmark}<span class="dot">.</span></span>
+        </a>
+        <p class="display h3 tag">Real connections start <em>with a real person.</em></p>
+        <p class="muted" style="margin-top:12px;max-width:44ch">
+          {SITE.name} is in build for both matrimony and dating. The app ships to the App Store and Google Play when the photo and identity pipeline has passed its own audit.
+        </p>
+      </div>
+      <nav class="cols" aria-label="Footer">
+        <div>
+          <p class="kicker">Site</p>
+          <ul>{NAV.map((n) => <li><a href={n.href}>{n.label}</a></li>)}<li><a href="#waitlist">Waitlist</a></li></ul>
+        </div>
+        <div>
+          <p class="kicker">Company</p>
+          <ul>
+            <li><a href="#principles">What we refuse to build</a></li>
+            <li><a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a></li>
+            <li><span class="muted">Privacy &amp; grievance officer: on launch</span></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+    <div class="bottom mono">
+      <span>&copy; {year} {SITE.name}. Pre-launch.</span>
+      <span>Verification vendors named on this site are candidates, not announced partners. Profile cards are examples, not users.</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer { border-top: 1px solid var(--line); padding-block: 64px 32px; background: var(--paper-2); }
+  .top { display: grid; gap: 40px; }
+  @media (min-width: 900px) { .top { grid-template-columns: 1.3fr 1fr; } }
+  .brand { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 20px; }
+  .brand :global(.mark) { color: var(--accent); }
+  .brand-name { font-weight: 600; font-size: 1.5rem; letter-spacing: -0.035em; line-height: 1; }
+  .brand-name .dot { color: var(--accent); }
+  .tag { max-width: 20ch; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .cols ul { margin-top: 14px; display: grid; gap: 8px; font-size: var(--t-sm); }
+  .cols a:hover { color: var(--accent); }
+  .bottom { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 8px 32px; justify-content: space-between; color: var(--ink-4); font-size: var(--t-xs); }
+</style>

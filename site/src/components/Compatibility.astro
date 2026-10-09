@@ -1,0 +1,105 @@
+---
+/** Sample compatibility report, switchable between the marriage and dating questionnaires. */
+const reports = {
+  marriage: {
+    label: 'Marriage', names: ['Ananya', 'Rohan'], sub: 'Compatibility report · marriage questionnaire · shared with both',
+    dims: [
+      { h: 'Life plans', s: 'Aligned', p: 'Both want to settle in Europe within three years and keep a base near their parents. Ananya wants children by 34; Rohan says "when we are ready", which he defines as after her residency. Worth one direct conversation, not a gap.' },
+      { h: 'Money', s: 'One question', p: 'Both save over 30% of income and prefer joint accounts for shared costs. Rohan supports his parents monthly; Ananya expects to. Agreement on principle, no agreement yet on amount.' },
+      { h: 'Family and distance', s: 'Aligned', p: 'Each lists a sibling as the closest confidant and expects in-laws to visit for weeks, not days. Neither wants to live in a joint household.' },
+      { h: 'Daily rhythm', s: 'Different', p: 'She trains at 6am and is asleep by 10. He is a night person who cooks late. Not a problem for most couples, but both rated "shared evenings" as important.' },
+    ],
+    foot: 'Three conversations to have first: children timing · parental support amount · shared evenings',
+  },
+  dating: {
+    label: 'Dating', names: ['Clara', 'Marcus'], sub: 'Compatibility report · dating questionnaire · shared with both',
+    dims: [
+      { h: 'What you are looking for', s: 'Aligned', p: 'Both chose "a relationship, no rush on labels". Neither is dating to pass the time, and neither wants to talk about marriage on a first date.' },
+      { h: 'Pace', s: 'One question', p: 'Clara likes to meet within a week of matching. Marcus prefers a fortnight of messages first. Easy to agree, but say it out loud.' },
+      { h: 'Weekends and energy', s: 'Aligned', p: 'Both put "outdoors, then a long dinner" above nightlife. Both rated alone time as essential, and both have a friend group they will not drop.' },
+      { h: 'Humour and conflict', s: 'Different', p: 'She goes quiet and comes back with a plan. He wants to talk it through the same night. Both said sarcasm is a love language, which helps.' },
+    ],
+    foot: 'Two conversations to have early: how fast to meet · how you each handle a bad day',
+  },
+} as const;
+const modes = Object.keys(reports) as Array<keyof typeof reports>;
+---
+<section class="section is-dark" id="compat">
+  <div class="wrap grid g-12 compat">
+    <div class="lead">
+      <p class="kicker" data-reveal>After the match</p>
+      <h2 class="display h2" data-reveal style="--d:80ms">Compatibility you can actually <em>read.</em></h2>
+      <p class="lede" data-reveal style="--d:160ms">
+        Not a percentage. A short, honest document written by AI from both questionnaires, pointing
+        at the conversations worth having before you meet. You choose what you are here for, and the
+        questions, the profile and the matching change with it.
+      </p>
+      <div class="modes" role="group" aria-label="Choose questionnaire" data-reveal style="--d:200ms">
+        {modes.map((m, i) => <button class="mode" data-mode={m} aria-pressed={i === 0 ? 'true' : 'false'}>{reports[m].label}</button>)}
+        <span class="mode-note mono">Same photo gate for both.</span>
+      </div>
+      <ul class="notes" data-reveal style="--d:240ms">
+        <li>Caste, religion and ethnicity are never inputs. They remain filters you set yourself.</li>
+        <li>Both people see the same report. Nothing is written about one person for the other.</li>
+        <li>Optional tradition modules, like horoscope matching, sit beside it as separate, clearly labelled extras.</li>
+      </ul>
+    </div>
+
+    <div class="reports" data-reveal style="--d:120ms">
+      {modes.map((m, i) => { const r = reports[m]; return (
+        <figure class="report" data-report={m} hidden={i !== 0}>
+          <div class="rh">
+            <div>
+              <p class="mono muted">{r.sub}</p>
+              <p class="names display">{r.names[0]} <span>&amp;</span> {r.names[1]}</p>
+            </div>
+            <span class="pill"><span class="dot"></span>Written by AI, disclosed</span>
+          </div>
+          <ul class="dims">
+            {r.dims.map((d) => (
+              <li>
+                <div class="dh"><span class="dn">{d.h}</span><span class={`ds mono ${d.s.toLowerCase().replace(' ', '-')}`}>{d.s}</span></div>
+                <p class="dp">{d.p}</p>
+              </li>
+            ))}
+          </ul>
+          <p class="rf mono">{r.foot}</p>
+        </figure>
+      ); })}
+    </div>
+  </div>
+</section>
+
+<style>
+  .compat { align-items: start; }
+  .lead { grid-column: span 5; --stack: 24px; }
+  .lead > * + * { margin-top: var(--stack); }
+  .reports { grid-column: 7 / span 6; }
+  @media (max-width: 900px) { .lead, .reports { grid-column: 1 / -1; } }
+  .modes { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .mode { padding: 9px 16px; border-radius: 999px; border: 1px solid var(--line-strong); font-size: var(--t-sm); transition: all .2s var(--ease); }
+  .mode:hover { border-color: var(--ink); }
+  .mode[aria-pressed='true'] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .mode-note { font-size: var(--t-xs); color: var(--ink-4); margin-left: 6px; }
+  .notes { display: grid; gap: 10px; font-size: var(--t-sm); color: var(--ink-3); padding-left: 0; }
+  .notes li { padding-left: 18px; position: relative; }
+  .notes li::before { content: ''; position: absolute; left: 0; top: .6em; width: 8px; height: 1px; background: var(--accent); }
+
+  .report { margin: 0; background: var(--paper-2); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: clamp(20px, 3vw, 32px); box-shadow: var(--shadow); animation: fade .4s var(--ease); }
+  .report[hidden] { display: none; }
+  @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .report { animation: none; } }
+  .rh { display: flex; justify-content: space-between; align-items: start; gap: 16px; flex-wrap: wrap; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+  .names { font-size: var(--t-xl); margin-top: 4px; }
+  .names span { color: var(--accent); font-style: italic; }
+  .dims { display: grid; }
+  .dims li { padding: 18px 0; border-bottom: 1px solid var(--line); }
+  .dh { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 6px; }
+  .dn { font-weight: 500; }
+  .ds { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; padding: 4px 8px; border-radius: 999px; white-space: nowrap; }
+  .ds.aligned { background: var(--ok-soft); color: var(--ok); }
+  .ds.one-question { background: var(--warn-soft); color: var(--warn); }
+  .ds.different { background: var(--accent-soft); color: var(--accent); }
+  .dp { font-size: var(--t-sm); color: var(--ink-2); text-wrap: pretty; }
+  .rf { margin-top: 16px; font-size: var(--t-xs); color: var(--ink-3); }
+</style>

@@ -1,0 +1,55 @@
+---
+---
+<section class="section" id="pricing">
+  <div class="wrap">
+    <div class="header-row">
+      <div>
+        <p class="kicker" data-reveal>Business model</p>
+        <h2 class="display h2" data-reveal style="--d:80ms">Nobody pays to be <em>real.</em></h2>
+      </div>
+      <p class="lede" data-reveal style="--d:160ms">
+        The incumbents charge for contact. We charge for depth. Verification that protects everyone
+        is free and mandatory, because a platform is only as trustworthy as its least-checked profile.
+      </p>
+    </div>
+    <div class="plans grid g-2">
+      <article class="plan" data-reveal>
+        <p class="kicker">Included for everyone</p>
+        <h3 class="display h3">Verified, matched, in touch.</h3>
+        <ul>
+          <li>Photo, live-person and identity checks (Tiers 0 to 2)</li>
+          <li>Choose marriage or dating; the questionnaire and matching follow</li>
+          <li>Profile import that fills the form for you</li>
+          <li>Filters by location, intent and minimum verification tier</li>
+          <li>Messaging with scam and harassment warnings</li>
+          <li>Grievance desk with a published response clock</li>
+        </ul>
+      </article>
+      <article class="plan premium" data-reveal style="--d:80ms">
+        <p class="kicker">Premium</p>
+        <h3 class="display h3">Show more. Know more.</h3>
+        <ul>
+          <li>Work, income, education and clean-record badges (Tiers 3 to 6)</li>
+          <li>AI compatibility reports, shared with both sides</li>
+          <li>Family seat: a parent or sibling with their own verified login</li>
+          <li>Priority human review and a named trust contact</li>
+          <li>Cross-border document support: NFC passport, overseas background checks</li>
+        </ul>
+        <p class="mono note">Pricing published at launch, in local currency for every market we open.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .plan { border: 1px solid var(--line); border-radius: var(--radius-lg); padding: clamp(24px, 3.5vw, 40px); display: grid; gap: 18px; align-content: start; background: var(--card); }
+  .plan.premium { background: var(--green); color: var(--paper); border-color: var(--green); }
+  .plan.premium .kicker { color: #d9d6c8; }
+  .plan.premium .h3 em, .plan.premium .h3 { color: var(--paper); }
+  .plan ul { display: grid; gap: 12px; font-size: var(--t-sm); margin-top: 6px; }
+  .plan li { padding-left: 24px; position: relative; color: var(--ink-2); }
+  .plan.premium li { color: #d9d6c8; }
+  .plan li::before { content: ''; position: absolute; left: 2px; top: .55em; width: 12px; height: 6px; border-left: 1.5px solid var(--accent); border-bottom: 1.5px solid var(--accent); transform: rotate(-45deg); }
+  .plan.premium li::before { border-color: #e8886b; }
+  .note { font-size: var(--t-xs); color: #a9b3a9; padding-top: 14px; border-top: 1px solid rgba(247,245,237,.14); }
+</style>

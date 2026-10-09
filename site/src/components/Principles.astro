@@ -1,0 +1,50 @@
+---
+const refuse = [
+  { h: 'No AI face recognition.', p: 'No AI model of ours identifies, matches or categorises a person from a face. Liveness and face matching run on a licensed KYC vendor built for it. Our detection models judge whether an image is real or generated, never who is in it.' },
+  { h: 'No inferred caste, religion or ethnicity.', p: 'Community is a filter a user chooses, never something a model guesses from a name, a photo or a surname. Compatibility scoring never sees those fields.' },
+  { h: 'No emotion reading.', p: 'No model looks at a photo, a video call or a voice note to tell anyone how someone "really" feels.' },
+  { h: 'No scoring of people who have not joined.', p: 'Trust signals are computed only on a user\'s own profile, disclosed at signup, with the right to see and contest them. We never score your cousin.' },
+  { h: 'No silent AI.', p: 'Any assistant that talks to you says it is AI. AI-drafted text is labelled, and so are heavily edited photos.' },
+  { h: 'No raw ID or selfie storage.', p: 'ID images and liveness videos are deleted after the vendor processes them. We keep hashed fields and an irreversible face vector for duplicate detection, nothing a leak could turn back into you.' },
+];
+---
+<section class="section" id="principles">
+  <div class="wrap">
+    <div class="header-row">
+      <div>
+        <p class="kicker" data-reveal>Principles</p>
+        <h2 class="display h2" data-reveal style="--d:80ms">What we <em>refuse</em> to build, on purpose.</h2>
+      </div>
+      <p class="lede" data-reveal style="--d:160ms">
+        Trust products fail when they become surveillance products. These lines are drawn before the
+        first line of code, and they map onto the strictest AI usage policies and privacy laws we
+        operate under, from the GDPR to India's DPDP Act.
+      </p>
+    </div>
+    <ul class="refuse">
+      {refuse.map((r, i) => (
+        <li data-reveal style={`--d:${i * 60}ms`}>
+          <span class="x" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 4l8 8M12 4l-8 8"/></svg></span>
+          <div>
+            <h3 class="rh">{r.h}</h3>
+            <p class="muted">{r.p}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+    <p class="src" style="margin-top:32px">
+      Legal references: <a href="https://gdpr.eu/" rel="noopener" target="_blank">EU General Data Protection Regulation</a> ·
+      <a href="https://www.meity.gov.in/" rel="noopener" target="_blank">India's Digital Personal Data Protection Act, 2023 and 2025 Rules (MeitY)</a>
+    </p>
+  </div>
+</section>
+
+<style>
+  .refuse { display: grid; gap: 0; border-top: 1px solid var(--line); }
+  @media (min-width: 900px) { .refuse { grid-template-columns: 1fr 1fr; column-gap: 48px; } }
+  .refuse li { display: grid; grid-template-columns: 28px 1fr; gap: 16px; padding: 24px 0; border-bottom: 1px solid var(--line); }
+  .x { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent-ink); margin-top: 2px; }
+  .x svg { width: 13px; height: 13px; }
+  .rh { font-weight: 500; font-size: var(--t-lg); letter-spacing: -0.01em; line-height: 1.25; margin-bottom: 8px; }
+  .refuse p { max-width: 48ch; text-wrap: pretty; font-size: var(--t-sm); }
+</style>

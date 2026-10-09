@@ -1,0 +1,140 @@
+---
+const evidence = [
+  { k: 'Profile · relationship status', v: 'Never married' },
+  { k: 'Profile · bio', v: '"…weekends are for my daughter and the football pitch…"' },
+  { k: 'Profile · role', v: 'Senior engineer, Amsterdam, since 2015' },
+  { k: 'Degree registry', v: 'B.Sc. conferred 2019' },
+  { k: 'Payslip (consented)', v: 'Employer registered in Dubai, paid in AED' },
+  { k: 'Photo models + KYC vendor', v: 'No generation signal · liveness pass · ID match 0.97 · no duplicate face' },
+];
+const findings = [
+  { sev: 'high', t: 'Status vs bio', d: '"Never married" conflicts with a bio that mentions a daughter.', q: 'Your bio mentions a daughter. Could you tell us about your relationship history? Divorced and widowed members are welcome here and shown honestly.' },
+  { sev: 'med', t: 'Role vs degree timeline', d: 'A senior title from 2015 predates a degree conferred in 2019.', q: 'Your degree is dated 2019 but your senior role starts in 2015. Which should we correct?' },
+  { sev: 'low', t: 'Employer location', d: 'Payslip employer is in Dubai; profile says Amsterdam.', q: 'Your payslip shows a Dubai employer. Do you work remotely, or has the city changed?' },
+];
+const workloads = [
+  { n: '01', h: 'Photo-check explainer', p: 'Our detection models return scores for AI generation, face swaps, retouching and reuse. AI turns them into plain advice: "this one passed with a signed camera credential; this one has a beauty filter, we will label it." It routes: pass, re-shoot or human review. It never looks at faces to identify anyone.', api: 'reasoning over model + vendor JSON' },
+  { n: '02', h: 'Credibility check', p: 'Reads free text, structured fields, extracted document fields and vendor results together. Returns discrepancies with severity and the exact question to ask the applicant.', api: 'structured output · long context' },
+  { n: '03', h: 'Profile import', p: 'Most people already have a biodata PDF, a CV or an old profile, in any language. AI extracts every field into our schema and flags what it could not read. Signup drops from 40 minutes to 5.', api: 'vision on documents · extraction' },
+  { n: '04', h: 'Smart matching & compatibility', p: 'Separate questionnaires for marriage and dating. AI writes a shared compatibility report from both sides\' answers and stated preferences. Caste, religion and ethnicity are never model inputs; they stay user-chosen filters.', api: 'long-form generation' },
+  { n: '05', h: 'Conversation safety', p: 'With both parties\' consent, scans messages for known scam scripts, early pressure to move off-platform, and harassment. Warns the recipient, files a case for the trust team. Disclosed as AI. Never infers emotion.', api: 'classification · streaming' },
+  { n: '06', h: 'Document assistant', p: 'Decrees, certificates and payslips: extracts fields, checks internal consistency (issuer format, seal, dates) and prepares the reviewer\'s checklist. The human decides.', api: 'vision · checklists' },
+  { n: '07', h: 'Trust-team copilot', p: 'Appeals, reviewer summaries and pattern reports across the fraud graph: "14 accounts this week share a bio paragraph and a payment card."', api: 'agentic tool use' },
+  { n: '08', h: 'Grievance handling', p: 'Several markets set a legal clock on complaints (seven days in India). AI triages, drafts responses and tracks the deadline.', api: 'triage · drafting' },
+];
+---
+<section class="section" id="ai">
+  <div class="wrap">
+    <div class="header-row">
+      <div>
+        <p class="kicker" data-reveal>How AI helps</p>
+        <h2 class="display h2" data-reveal style="--d:80ms">Fakes rarely fail one check. They fail <em>consistency.</em></h2>
+      </div>
+      <p class="lede" data-reveal style="--d:160ms">
+        Our photo models answer "is this face real". The KYC vendor answers "is this a live person
+        with a genuine ID". AI reads all the answers together with the profile and the documents,
+        and does what no checklist can: notice that the story does not add up.
+      </p>
+    </div>
+
+    <div class="demo" data-reveal id="coherence-demo">
+      <div class="evidence">
+        <p class="kicker">Input · one applicant, 23 fields, 2 documents, 4 model and vendor results</p>
+        <ul class="ev">
+          {evidence.map((e) => <li><span class="ek mono">{e.k}</span><span class="ev-v">{e.v}</span></li>)}
+        </ul>
+      </div>
+      <div class="output">
+        <div class="bar"><span class="pill"><span class="dot"></span>ai · credibility_check</span><span class="mono muted">structured output</span></div>
+        <ol class="findings">
+          {findings.map((f, i) => (
+            <li class="finding" style={`--i:${i}`} data-sev={f.sev}>
+              <span class="sev mono">{f.sev}</span>
+              <div>
+                <p class="ft">{f.t}</p>
+                <p class="fd muted">{f.d}</p>
+                <p class="fq"><span class="mono">ask →</span> “{f.q}”</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+        <p class="routing mono" style="--i:3">routing: hold publication · ask applicant · human review if unresolved in 48h</p>
+      </div>
+    </div>
+    <p class="src" style="margin-top:14px">Illustrative output. The questions are written for the applicant, not about them; every discrepancy is resolvable and a human makes any rejection.</p>
+
+    <div class="workloads">
+      <p class="kicker" data-reveal>Eight jobs for AI, each a distinct call pattern</p>
+      <ol class="wl">
+        {workloads.map((w, i) => (
+          <li data-reveal style={`--d:${(i % 4) * 60}ms`}>
+            <span class="wn mono">{w.n}</span>
+            <h3 class="wh">{w.h}</h3>
+            <p class="wp muted">{w.p}</p>
+            <span class="wapi mono">{w.api}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+
+    <div class="why grid g-2" data-reveal>
+      <div>
+        <p class="kicker">Why reasoning AI, specifically</p>
+        <h3 class="display h3">The hard part is reading, not recognising.</h3>
+      </div>
+      <ul class="why-list">
+        <li><strong>Long-context document reasoning.</strong> A profile, two PDFs and four model reports fit in one call, so contradictions across them are found in one pass.</li>
+        <li><strong>Reliable structured output.</strong> Findings come back as schema-valid JSON with severity and a user-facing question, straight into the review queue.</li>
+        <li><strong>Multilingual by default.</strong> Profiles and documents arrive in dozens of languages, often as a phone photo of a printed page.</li>
+        <li><strong>A boundary we chose.</strong> Our AI never does facial recognition or emotion inference. Detection models and a KYC vendor sit on the other side of that line, and the seam is deliberate.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .demo { display: grid; border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; background: var(--card); }
+  @media (min-width: 960px) { .demo { grid-template-columns: 5fr 7fr; } }
+  .evidence { padding: clamp(20px, 3vw, 32px); border-bottom: 1px solid var(--line); }
+  @media (min-width: 960px) { .evidence { border-bottom: 0; border-right: 1px solid var(--line); } }
+  .ev { display: grid; margin-top: 18px; }
+  .ev li { display: grid; gap: 4px; padding: 12px 0; border-top: 1px solid var(--line); font-size: var(--t-sm); }
+  .ek { font-size: 11px; color: var(--ink-4); letter-spacing: .02em; }
+  .ev-v { color: var(--ink); }
+
+  .output { background: var(--green); color: #f7f5ed; padding: clamp(20px, 3vw, 32px); display: grid; align-content: start; gap: 14px; }
+  .output .pill { background: rgba(247,245,237,.08); border-color: rgba(247,245,237,.18); color: #f7f5ed; }
+  .bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; font-size: var(--t-xs); }
+  .bar .muted { color: #a9b3a9; }
+  .findings { display: grid; gap: 10px; margin-top: 6px; }
+  .finding { display: grid; grid-template-columns: 52px 1fr; gap: 14px; padding: 14px; border-radius: 12px; background: rgba(247,245,237,.05); border: 1px solid rgba(247,245,237,.08); }
+  .finding, .routing { opacity: 0; transform: translateY(6px); transition: opacity .5s var(--ease), transform .6s var(--ease); transition-delay: calc(var(--i) * 350ms + 200ms); }
+  .demo.run .finding, .demo.run .routing { opacity: 1; transform: none; }
+  .sev { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; padding: 4px 0; text-align: center; border-radius: 6px; height: fit-content; }
+  [data-sev='high'] .sev { background: #b74b31; color: #fff; }
+  [data-sev='med'] .sev { background: #e6b45a; color: #203528; }
+  [data-sev='low'] .sev { background: rgba(247,245,237,.18); color: #f7f5ed; }
+  .ft { font-weight: 500; font-size: var(--t-sm); }
+  .fd { font-size: var(--t-sm); color: #b5bdb3; margin-top: 2px; }
+  .fq { font-size: var(--t-sm); margin-top: 8px; color: #e9e6da; font-style: italic; text-wrap: pretty; }
+  .fq .mono { font-style: normal; color: #e8886b; margin-right: 6px; font-size: 11px; }
+  .routing { font-size: 11px; color: #a9b3a9; padding-top: 6px; }
+  @media (prefers-reduced-motion: reduce) { .finding, .routing { opacity: 1; transform: none; transition: none; } }
+
+  .workloads { margin-top: clamp(48px, 7vw, 96px); }
+  .wl { display: grid; margin-top: 24px; border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+  @media (min-width: 640px) { .wl { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1024px) { .wl { grid-template-columns: repeat(4, 1fr); } }
+  .wl li { padding: 22px 20px 24px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); display: grid; align-content: start; gap: 10px; transition: background .3s var(--ease); }
+  .wl li:hover { background: var(--card); }
+  .wn { color: var(--accent); font-size: var(--t-xs); }
+  .wh { font-weight: 500; font-size: var(--t-base); letter-spacing: -0.01em; line-height: 1.25; }
+  .wp { font-size: var(--t-sm); text-wrap: pretty; }
+  .wapi { font-size: 10px; color: var(--ink-4); letter-spacing: .04em; margin-top: 6px; }
+
+  .why { margin-top: clamp(48px, 7vw, 96px); align-items: start; }
+  .why .h3 { margin-top: 14px; max-width: 18ch; }
+  .why-list { display: grid; gap: 14px; }
+  .why-list li { padding: 16px 0; border-top: 1px solid var(--line); font-size: var(--t-sm); color: var(--ink-2); text-wrap: pretty; }
+  .why-list strong { color: var(--ink); font-weight: 500; display: block; margin-bottom: 4px; }
+</style>

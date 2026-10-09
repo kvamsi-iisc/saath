@@ -1,0 +1,117 @@
+---
+const tiers = [
+  { n: 0, name: 'Real photos', req: 'Required', who: 'Our detection models',
+    proves: 'The photos are of a real person, unedited beyond taste, and not lifted from anyone else.',
+    how: 'Our own models score every upload for AI generation, face-swap and deepfake artefacts, heavy retouching and reshaping, plus a perceptual hash against every photo on the platform, a reverse-image search and a Content Credential read when the camera signed the file. Generated and swapped faces are rejected. Heavily edited photos are labelled and discouraged. AI turns the scores into plain-language advice for the applicant.' },
+  { n: 1, name: 'Real person', req: 'Required', who: 'KYC vendor',
+    proves: 'A live human who matches their photos. One account per face.',
+    how: 'Liveness check and selfie-to-photo match run on a specialised identity-verification vendor. The video is deleted within days; only an irreversible face vector stays, to stop one person running five accounts.' },
+  { n: 2, name: 'Real identity', req: 'Required', who: 'KYC vendor',
+    proves: 'Legal name, date of birth and the photo on a government ID.',
+    how: 'A passport, national ID card or driving licence, read by document scan or NFC where the document supports it. Regional e-ID rails (for example DigiLocker in India) plug in where they exist. The ID image is deleted after extraction; we never store the ID number itself.' },
+  { n: 3, name: 'Real work & income', req: 'Premium badge', who: 'Consent lookups + AI',
+    proves: 'Employer, tenure and income band.',
+    how: 'Payroll, tax or pension records shared with the user\'s consent, payslips, and a work-email domain check. AI cross-checks the documents against what the profile claims.' },
+  { n: 4, name: 'Real education', req: 'Premium badge', who: 'Degree registries',
+    proves: 'Degree and institution.',
+    how: 'Digital degree records from national or university registries where they exist, with a manual verification partner as fallback.' },
+  { n: 5, name: 'Real relationship status', req: 'Required to claim "divorced"', who: 'AI + human',
+    proves: 'Never married, divorced with decree, or widowed.',
+    how: 'Decree or certificate upload. AI extracts the fields and checks the document is internally consistent; a human reviewer confirms. A divorce can never be hidden on this platform.' },
+  { n: 6, name: 'Clean record', req: 'Optional, user-initiated', who: 'Background-check partner',
+    proves: 'No criminal record.',
+    how: 'The user requests their own certificate from a licensed provider in their country. We verify the certificate is genuine.' },
+  { n: 7, name: 'Vouched for', req: 'Optional', who: 'Platform',
+    proves: 'A named family member or friend stands behind this profile.',
+    how: 'The voucher passes Tiers 0 to 2 on their own account and links to the profile. Families already do this offline; we make it visible.' },
+];
+---
+<section class="section is-dark" id="tiers">
+  <div class="wrap">
+    <div class="header-row">
+      <div>
+        <p class="kicker" data-reveal>How a profile goes live</p>
+        <h2 class="display h2" data-reveal style="--d:80ms">Verification is free and mandatory. <em>Depth</em> is the premium.</h2>
+      </div>
+      <p class="lede" data-reveal style="--d:160ms">
+        Incumbents sell a "verified" tick for a phone number. We gate every live profile, marriage or
+        dating, behind three checks and let you filter matches by the minimum tier you will talk to.
+      </p>
+    </div>
+
+    <div class="ladder" data-reveal>
+      <ol class="tiers" role="tablist" aria-label="Verification tiers">
+        {tiers.map((t, i) => (
+          <li>
+            <button class="tier" role="tab" id={`tier-tab-${t.n}`} aria-controls={`tier-${t.n}`} aria-selected={i === 0 ? 'true' : 'false'} data-tier={t.n}>
+              <span class="tn mono">T{t.n}</span>
+              <span class="tname">{t.name}</span>
+              <span class={`treq mono ${t.req === 'Required' ? 'req' : ''}`}>{t.req}</span>
+            </button>
+          </li>
+        ))}
+      </ol>
+      <div class="detail">
+        {tiers.map((t, i) => (
+          <article class="panel" role="tabpanel" id={`tier-${t.n}`} aria-labelledby={`tier-tab-${t.n}`} hidden={i !== 0}>
+            <p class="kicker">Tier {t.n} · {t.who}</p>
+            <h3 class="display h3">{t.proves}</h3>
+            <p class="how">{t.how}</p>
+            <p class="mono foot">{t.n <= 2 ? 'Gate: the profile does not exist to other users until this passes.' : 'Badge: shown on the card, used as a filter by the other side.'}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+
+    <div class="rules grid g-3">
+      <div data-reveal>
+        <h3 class="rh">No single signal rejects a human.</h3>
+        <p class="muted">Photo detectors mislabel a share of real people. Every automated fail routes to a live retry and then to a human reviewer, and the applicant always sees why.</p>
+      </div>
+      <div data-reveal style="--d:80ms">
+        <h3 class="rh">AI reasons. Vendors recognise.</h3>
+        <p class="muted">Face matching, liveness and face-vector dedupe run on a KYC vendor. Our AI never identifies anyone from a face; it reads the vendor's result alongside everything textual and documentary.</p>
+      </div>
+      <div data-reveal style="--d:160ms">
+        <h3 class="rh">Fraud is a graph, not a form.</h3>
+        <p class="muted">Device, phone, email, shared photos, shared bio text and message behaviour feed a risk score the user is told about at signup. Fakes rarely fail one check. They fail consistency.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ladder { display: grid; gap: 16px; border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; background: var(--paper-2); }
+  @media (min-width: 900px) { .ladder { grid-template-columns: 5fr 7fr; gap: 0; } }
+  .tiers { display: grid; }
+  @media (min-width: 900px) { .tiers { border-right: 1px solid var(--line); } }
+  .tier {
+    width: 100%; display: grid; grid-template-columns: 44px 1fr auto; gap: 12px; align-items: center;
+    padding: 16px 20px; text-align: left; border-bottom: 1px solid var(--line);
+    transition: background .25s var(--ease);
+  }
+  .tiers li:last-child .tier { border-bottom: 0; }
+  .tier:hover { background: var(--paper-3); }
+  .tier[aria-selected='true'] { background: var(--paper); }
+  .tier[aria-selected='true'] .tn { color: var(--accent); }
+  .tn { color: var(--ink-4); font-size: var(--t-sm); }
+  .tname { font-weight: 500; }
+  .treq { font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-4); }
+  .treq.req { color: var(--ok); }
+  .detail { padding: clamp(24px, 4vw, 48px); background: var(--paper); display: grid; }
+  .panel { --stack: 16px; display: grid; gap: 16px; align-content: start; animation: fade .4s var(--ease); }
+  .panel[hidden] { display: none; }
+  .panel .h3 { max-width: 24ch; }
+  .how { color: var(--ink-2); max-width: 58ch; text-wrap: pretty; }
+  .foot { color: var(--ink-4); font-size: var(--t-xs); margin-top: 8px; }
+  @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .panel { animation: none; } }
+  @media (max-width: 900px) {
+    .tiers { grid-template-columns: repeat(2, 1fr); }
+    .tier { grid-template-columns: 36px 1fr; padding: 14px 16px; border-right: 1px solid var(--line); }
+    .treq { display: none; }
+  }
+  .rules { margin-top: clamp(40px, 6vw, 72px); }
+  .rules > div { padding-top: 18px; border-top: 1px solid var(--accent); }
+  .rh { font-weight: 500; font-size: var(--t-lg); letter-spacing: -0.01em; margin-bottom: 10px; line-height: 1.25; }
+</style>

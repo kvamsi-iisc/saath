@@ -1,0 +1,99 @@
+---
+const SRC = {
+  ftc: 'https://www.ftc.gov/business-guidance/blog/2024/02/love-stinks-when-scammer-involved',
+  ic3: 'https://www.ic3.gov/AnnualReport/Reports/2024_IC3Report.pdf',
+  colp: 'https://www.cityoflondon.police.uk/news/city-of-london/news/2024/june/heavy-hearts-and-empty-wallets-more-than-94.7-million-lost-to-romance-fraud-in-the-last-year/',
+  sumsub: 'https://www.globaldatinginsights.com/featured/deepfakes-drive-uk-dating-app-mistrust-for-84-of-singles/',
+  match: 'https://mtch.com/news/1022-2/',
+  gasa: 'https://gasa.org/knowledge-base/blog/global-state-of-scams-report-2024-1-trillion-stolen-in-12-months-gasa-feedzai',
+  tn: 'https://www.medianama.com/2026/09/223-tamil-nadu-matrimony-aadhaar-user-verification/',
+};
+---
+<section class="section" id="problem">
+  <div class="wrap">
+    <div class="header-row">
+      <div>
+        <p class="kicker" data-reveal>The problem</p>
+        <h2 class="display h2" data-reveal style="--d:80ms">Every platform checks a phone number. <em>Nobody checks the face.</em></h2>
+      </div>
+      <p class="lede" data-reveal style="--d:160ms">
+        A profile is a set of claims: who I am, what I look like, what I do, whether I have been
+        married. On most matrimony and dating platforms none of them is checked, and the fakes know it.
+      </p>
+    </div>
+
+    <div class="stats">
+      <div class="stat big" data-reveal>
+        <p class="n display">$1.14<span>bn</span></p>
+        <p class="l">reported lost to romance scams in the United States in one year. Median loss per person: $2,000. Most victims never report.<sup class="fn">1</sup></p>
+      </div>
+      <div class="stat" data-reveal style="--d:80ms">
+        <p class="n display">17,910</p>
+        <p class="l">romance and confidence-fraud complaints to the FBI in 2024, worth $672 million.<sup class="fn">2</sup></p>
+      </div>
+      <div class="stat" data-reveal style="--d:160ms">
+        <p class="n display">£94.7<span>m</span></p>
+        <p class="l">lost to romance fraud in the UK in twelve months, across 8,792 reports to the police.<sup class="fn">3</sup></p>
+      </div>
+      <div class="stat" data-reveal style="--d:240ms">
+        <p class="n display">84<span>%</span></p>
+        <p class="l">of UK singles say AI-generated content has made it harder to trust anyone on a dating app.<sup class="fn">4</sup></p>
+      </div>
+    </div>
+
+    <div class="failures grid g-3">
+      <article class="card" data-reveal>
+        <p class="kicker">Failure 1</p>
+        <h3 class="fh">The face is not the person.</h3>
+        <p class="muted">Generated faces, face swaps and lifted photos all pass a phone-number tick. And the day-one problem is older than deepfakes: 88% of manipulated dating photos are real people behind heavy filters.<sup class="fn">5</sup></p>
+      </article>
+      <article class="card" data-reveal style="--d:80ms">
+        <p class="kicker">Failure 2</p>
+        <h3 class="fh">The facts are hidden.</h3>
+        <p class="muted">Previous marriages, the actual job, the real age. Families and daters spend weeks, and sometimes private investigators, finding what a document check settles in a minute.</p>
+      </article>
+      <article class="card" data-reveal style="--d:160ms">
+        <p class="kicker">Failure 3</p>
+        <h3 class="fh">The product is a 2009 form.</h3>
+        <p class="muted">Forty-minute signups, thousands of "interests" from nobody, and no way to tell a checked profile from a hopeful one.</p>
+      </article>
+    </div>
+
+    <p class="shift" data-reveal>
+      Scams cost the world an estimated US$1.03 trillion in a single year.<sup class="fn">6</sup>
+      Regulators are moving: in August 2026 Tamil Nadu cleared India's largest matrimony platform to
+      offer voluntary government-ID authentication, naming impersonation and matrimony fraud as the
+      reason.<sup class="fn">7</sup> ID checks are becoming table stakes. Catching the fake photo
+      before anyone sees it, and reasoning over what the checks found, is where we start.
+    </p>
+
+    <ol class="sources src">
+      <li>1. US Federal Trade Commission, Consumer Sentinel data for 2023: 64,003 reports, $1.14 billion reported lost. <a href={SRC.ftc} rel="noopener" target="_blank">ftc.gov</a></li>
+      <li>2. FBI Internet Crime Complaint Center, 2024 Internet Crime Report, confidence/romance category. <a href={SRC.ic3} rel="noopener" target="_blank">ic3.gov</a></li>
+      <li>3. City of London Police / National Fraud Intelligence Bureau, June 2024. <a href={SRC.colp} rel="noopener" target="_blank">cityoflondon.police.uk</a></li>
+      <li>4. Survey of about 2,000 UK dating-app users commissioned by Sumsub, an identity-verification vendor, 2025. <a href={SRC.sumsub} rel="noopener" target="_blank">Global Dating Insights</a></li>
+      <li>5. Reality Defender audit of Tinder and Hinge photos for Match Group, Feb 2025. <a href={SRC.match} rel="noopener" target="_blank">mtch.com</a></li>
+      <li>6. Global Anti-Scam Alliance and Feedzai, Global State of Scams Report 2024, survey-based estimate. <a href={SRC.gasa} rel="noopener" target="_blank">gasa.org</a></li>
+      <li>7. Tamil Nadu notification of 2026-08-28, gazetted 2026-09-16. <a href={SRC.tn} rel="noopener" target="_blank">Medianama</a></li>
+    </ol>
+  </div>
+</section>
+
+<style>
+  .stats { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; }
+  @media (min-width: 900px) { .stats { grid-template-columns: 1.6fr 1fr 1fr 1fr; } }
+  @media (min-width: 560px) and (max-width: 899px) { .stats { grid-template-columns: 1fr 1fr; } .stat.big { grid-column: 1 / -1; } }
+  .stat { background: var(--card); padding: clamp(20px, 3vw, 32px); display: grid; align-content: space-between; gap: 28px; min-height: 200px; }
+  .stat.big { background: var(--green); color: var(--paper); }
+  .stat.big .l { color: #d9d6c8; }
+  .n { font-size: clamp(2.6rem, 2rem + 3vw, 4.4rem); line-height: .95; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  .big .n { font-size: clamp(4rem, 3rem + 6vw, 8rem); }
+  .n span { font-size: .45em; color: var(--accent-display); margin-left: 2px; font-style: italic; }
+  .big .n span { color: #e8886b; }
+  .l { font-size: var(--t-sm); color: var(--ink-2); max-width: 30ch; text-wrap: pretty; }
+  .failures { margin-top: clamp(32px, 5vw, 56px); }
+  .fh { font-family: var(--font-display); font-size: var(--t-xl); line-height: 1.08; margin: 14px 0 12px; }
+  .shift { margin-top: clamp(32px, 5vw, 56px); font-size: var(--t-lg); line-height: 1.45; max-width: 62ch; color: var(--ink-2); text-wrap: pretty; }
+  .sources { margin-top: 36px; display: grid; gap: 6px; padding-top: 16px; border-top: 1px solid var(--line); }
+  @media (max-width: 560px) { .stat { min-height: 0; gap: 14px; } .stat.big { min-height: 180px; } }
+</style>

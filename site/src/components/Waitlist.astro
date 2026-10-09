@@ -1,0 +1,78 @@
+---
+import { SITE } from '../config/site';
+---
+<section class="section is-dark" id="waitlist">
+  <div class="wrap grid g-12 wl">
+    <div class="lead">
+      <p class="kicker" data-reveal>Private beta</p>
+      <h2 class="display h2" data-reveal style="--d:80ms">Be among the first profiles. <em>All of them real.</em></h2>
+      <p class="lede" data-reveal style="--d:160ms">
+        The iOS and Android apps are in build. Waitlist members get the first invites, in the order
+        they joined, and a say in what we verify next.
+      </p>
+      <div class="stores" data-reveal style="--d:240ms">
+        <span class="store"><small>App Store</small><strong>In progress</strong></span>
+        <span class="store"><small>Google Play</small><strong>In progress</strong></span>
+        <span class="store"><small>Web</small><strong>Beta first</strong></span>
+      </div>
+    </div>
+
+    <form class="form card" id="waitlist-form" data-endpoint={SITE.waitlistEndpoint} data-reveal style="--d:120ms" novalidate>
+      <div class="field">
+        <label for="wl-email">Email</label>
+        <input id="wl-email" name="email" type="email" inputmode="email" autocomplete="email" required placeholder="you@example.com" />
+      </div>
+      <fieldset class="field">
+        <legend>I'm here for</legend>
+        <div class="choices row">
+          <label><input type="radio" name="intent" value="marriage" checked /> Marriage</label>
+          <label><input type="radio" name="intent" value="dating" /> Dating</label>
+          <label><input type="radio" name="intent" value="both" /> Not sure yet</label>
+        </div>
+      </fieldset>
+      <fieldset class="field">
+        <legend>Joining</legend>
+        <div class="choices">
+          <label><input type="radio" name="for" value="self" checked /> for myself</label>
+          <label><input type="radio" name="for" value="family" /> for a family member or friend</label>
+          <label><input type="radio" name="for" value="partner" /> as a verification or KYC partner</label>
+        </div>
+      </fieldset>
+      <div class="field">
+        <label for="wl-country">Country</label>
+        <input id="wl-country" name="country" type="text" autocomplete="country-name" placeholder="Where you live" />
+      </div>
+      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="sr-only" aria-hidden="true" />
+      <button class="btn btn-primary" type="submit">Join the waitlist</button>
+      <p class="fine mono">No spam, no selling your email. You can ask us to delete it any time.</p>
+      <p class="status mono" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
+<style>
+  .wl { align-items: center; }
+  .lead { grid-column: span 6; --stack: 24px; }
+  .lead > * + * { margin-top: var(--stack); }
+  .form { grid-column: 8 / span 5; display: grid; gap: 18px; }
+  @media (max-width: 900px) { .lead, .form { grid-column: 1 / -1; } }
+  .stores { display: flex; flex-wrap: wrap; gap: 10px; }
+  .store { display: inline-grid; padding: 10px 14px; border: 1px dashed var(--line-strong); border-radius: 12px; }
+  .store small { font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-4); }
+  .store strong { font-weight: 500; font-size: var(--t-sm); }
+  .field { display: grid; gap: 8px; border: 0; padding: 0; margin: 0; min-width: 0; }
+  label, legend { font-size: var(--t-sm); color: var(--ink-2); }
+  input[type='email'], input[type='text'] {
+    width: 100%; padding: 13px 14px; border-radius: 8px; border: 1px solid var(--line-strong);
+    background: var(--paper); color: var(--ink); transition: border-color .2s;
+  }
+  input[type='email']:focus, input[type='text']:focus { border-color: var(--accent); outline: none; }
+  .choices { display: grid; gap: 8px; }
+  .choices.row { display: flex; flex-wrap: wrap; gap: 8px 18px; }
+  .choices label { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+  .choices input { accent-color: var(--accent); }
+  .fine { font-size: var(--t-xs); color: var(--ink-4); }
+  .status { font-size: var(--t-sm); color: var(--ok); min-height: 1.2em; }
+  .status.err { color: var(--accent); }
+  .form.sent .btn { pointer-events: none; opacity: .6; }
+</style>
